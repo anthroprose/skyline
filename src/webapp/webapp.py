@@ -11,7 +11,10 @@ from os.path import dirname, abspath
 sys.path.insert(0, dirname(dirname(abspath(__file__))))
 import settings
 
-REDIS_CONN = redis.StrictRedis(unix_socket_path=settings.REDIS_SOCKET_PATH)
+if settings.REDIS_SOCKET_PATH is not None:
+    REDIS_CONN = redis.StrictRedis(unix_socket_path=settings.REDIS_SOCKET_PATH)
+else:
+    REDIS_CONN = redis.StrictRedis(host=settings.REDIS_HOST_NAME, port=settings.REDIS_PORT_NUMBER)
 
 app = Flask(__name__)
 app.config['PROPAGATE_EXCEPTIONS'] = True

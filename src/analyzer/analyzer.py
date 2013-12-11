@@ -26,7 +26,12 @@ class Analyzer(Thread):
         Initialize the Analyzer
         """
         super(Analyzer, self).__init__()
-        self.redis_conn = StrictRedis(unix_socket_path = settings.REDIS_SOCKET_PATH)
+        
+        if settings.REDIS_SOCKET_PATH is not None:
+            self.redis_conn = StrictRedis(unix_socket_path = settings.REDIS_SOCKET_PATH)
+        else:
+            self.redis_conn = StrictRedis(host=settings.REDIS_HOST_NAME, port=settings.REDIS_PORT_NUMBER)
+            
         self.daemon = True
         self.parent_pid = parent_pid
         self.current_pid = getpid()
@@ -138,7 +143,12 @@ class Analyzer(Thread):
             except:
                 logger.error('skyline can\'t connect to redis at socket path %s' % settings.REDIS_SOCKET_PATH)
                 sleep(10)
-                self.redis_conn = StrictRedis(unix_socket_path = settings.REDIS_SOCKET_PATH)
+
+                if settings.REDIS_SOCKET_PATH is not None:
+                    self.redis_conn = redis.StrictRedis(unix_socket_path=settings.REDIS_SOCKET_PATH)
+                else:
+                    self.redis_conn = redis.StrictRedis(host=settings.REDIS_HOST_NAME, port=settings.REDIS_PORT_NUMBER)
+
                 continue
 
             # Discover unique metrics

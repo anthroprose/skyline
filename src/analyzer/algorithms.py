@@ -16,6 +16,8 @@ from settings import (
     MIN_TOLERABLE_LENGTH,
     STALE_PERIOD,
     REDIS_SOCKET_PATH,
+    REDIS_HOST_NAME,
+    REDIS_PORT_NUMBER,
     ENABLE_SECOND_ORDER,
     BOREDOM_SET_SIZE,
 )
@@ -23,7 +25,12 @@ from settings import (
 from algorithm_exceptions import *
 
 logger = logging.getLogger("AnalyzerLog")
-redis_conn = StrictRedis(unix_socket_path=REDIS_SOCKET_PATH)
+
+if settings.REDIS_SOCKET_PATH is not None:
+    redis_conn = StrictRedis(unix_socket_path=REDIS_SOCKET_PATH)
+else:
+    redis_conn = StrictRedis(host=settings.REDIS_HOST_NAME, port=settings.REDIS_PORT_NUMBER)
+
 
 """
 This is no man's land. Do anything you want in here,
