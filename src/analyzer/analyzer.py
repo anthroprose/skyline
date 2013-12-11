@@ -141,12 +141,13 @@ class Analyzer(Thread):
             try:
                 self.redis_conn.ping()
             except:
-                logger.error('skyline can\'t connect to redis at socket path %s' % settings.REDIS_SOCKET_PATH)
                 sleep(10)
 
                 if settings.REDIS_SOCKET_PATH is not None:
+                    logger.error('Ping Failed! - skyline can\'t connect to redis at socket path %s' % settings.REDIS_SOCKET_PATH)
                     self.redis_conn = StrictRedis(unix_socket_path=settings.REDIS_SOCKET_PATH)
                 else:
+                    logger.error('Ping Failed! - skyline can\'t connect to redis at %s' % settings.REDIS_HOST_NAME)
                     self.redis_conn = StrictRedis(host=settings.REDIS_HOST_NAME, port=settings.REDIS_PORT_NUMBER)
 
                 continue
