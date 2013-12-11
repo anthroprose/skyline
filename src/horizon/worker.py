@@ -83,9 +83,9 @@ class Worker(Process):
                 sleep(10)
 
                 if settings.REDIS_SOCKET_PATH is not None:
-                    self.redis_conn = redis.StrictRedis(unix_socket_path=settings.REDIS_SOCKET_PATH)
+                    self.redis_conn = StrictRedis(unix_socket_path=settings.REDIS_SOCKET_PATH)
                 else:
-                    self.redis_conn = redis.StrictRedis(host=settings.REDIS_HOST_NAME, port=settings.REDIS_PORT_NUMBER)
+                    self.redis_conn = StrictRedis(host=settings.REDIS_HOST_NAME, port=settings.REDIS_PORT_NUMBER)
 
                 pipe = self.redis_conn.pipeline()
                 continue
