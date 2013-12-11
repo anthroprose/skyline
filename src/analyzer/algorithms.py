@@ -26,10 +26,10 @@ from algorithm_exceptions import *
 
 logger = logging.getLogger("AnalyzerLog")
 
-if settings.REDIS_SOCKET_PATH is not None:
+if REDIS_SOCKET_PATH is not None:
     redis_conn = StrictRedis(unix_socket_path=REDIS_SOCKET_PATH)
 else:
-    redis_conn = StrictRedis(host=settings.REDIS_HOST_NAME, port=settings.REDIS_PORT_NUMBER)
+    redis_conn = StrictRedis(host=REDIS_HOST_NAME, port=REDIS_PORT_NUMBER)
 
 
 """
